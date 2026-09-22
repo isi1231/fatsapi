@@ -1,0 +1,52 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ---- 虚拟环境 ----
+.venv/
+venv/
+env/
+ENV/
+
+# ---- FastAPI / 项目运行产物 ----
+*.db
+*.sqlite
+*.sqlite3
+.env
+.env.*
+!.env.example
+logs/
+*.log
+
+# ---- 测试与缓存 ----
+.pytest_cache/
+.pytest_cache_broken/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# ---- IDE ----
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+*.swp
+*~
+
+# ---- 系统 ----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- 临时脚本 ----
+tmp/
+scratch/
