@@ -1,0 +1,7 @@
+# Day 1 · 最小依赖
+# 后续按天补：httpx sqlalchemy alembic aiosqlite asyncpg
+#            python-jose[cryptography] passlib[bcrypt] slowapi
+#            pytest pytest-asyncio sse-starlette
+
+fastapi[standard]
+uvicorn[standard]

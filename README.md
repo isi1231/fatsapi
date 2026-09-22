@@ -34,7 +34,7 @@ Agent 方向的实习 JD 里反复出现 FastAPI，考的不是「会不会写 C
 ## 进度
 
 ### Week 1 · 接口与数据契约
-- [ ] Day 1 — 第一个接口与路由组织
+- [x] Day 1 — 第一个接口与路由组织 · [笔记](docs/day01.md)
 - [ ] Day 2 — 请求三件套 + Pydantic 模型
 - [ ] Day 3 — Pydantic v2 深入
 - [ ] Day 4 — 依赖注入 `Depends`
@@ -72,11 +72,40 @@ conda activate fastapi
 pip install "fastapi[standard]" uvicorn[standard] pydantic-settings
 ```
 
+当前环境实测版本：Python 3.11.16 · FastAPI 0.141.1 · Pydantic 2.13.5 · uvicorn 0.53.0
+
 ## 运行
 
 ```bash
-uvicorn app.main:app --reload --port 8000   # 开发服务，文档在 /docs
-python -m pytest                            # 跑测试
+# 开发服务（--reload 会在文件变化时自动重启进程）
+uvicorn app.main:app --reload --port 8000
+
+# 接口文档
+#   http://127.0.0.1:8000/docs    Swagger UI（带 Try it out）
+#   http://127.0.0.1:8000/redoc   只读文档
+
+# 一键验证当天接口
+python scripts/check_day01.py
+
+# 跑测试（Day 16 起）
+python -m pytest
 ```
 
 > ⚠️ 提交格式沿用 `dayN: 做了什么`；`.env` 永不入库，只留 `.env.example`。
+
+## 当前结构
+
+```
+fastapi/
+├── app/
+│   ├── main.py              # 装配层：建 app、挂路由
+│   └── routers/
+│       ├── health.py        # GET /health, /health/ready
+│       └── playground.py    # 路径参数 / 查询参数练习
+├── scripts/
+│   └── check_day01.py       # Day 1 接口验证
+└── docs/
+    ├── learning-plan.md     # 完整 4 周计划
+    └── day01.md             # Day 1 讲解
+```
+
