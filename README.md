@@ -35,7 +35,7 @@ Agent 方向的实习 JD 里反复出现 FastAPI，考的不是「会不会写 C
 
 ### Week 1 · 接口与数据契约
 - [x] Day 1 — 第一个接口与路由组织 · [笔记](docs/day01.md)
-- [ ] Day 2 — 请求三件套 + Pydantic 模型
+- [x] Day 2 — 请求体 + Pydantic 模型 + `response_model` · [笔记](docs/day02.md)
 - [ ] Day 3 — Pydantic v2 深入
 - [ ] Day 4 — 依赖注入 `Depends`
 - [ ] Day 5 — 异常、中间件、CORS
@@ -86,6 +86,7 @@ uvicorn app.main:app --reload --port 8000
 
 # 一键验证当天接口
 python scripts/check_day01.py
+python scripts/check_day02.py
 
 # 跑测试（Day 16 起）
 python -m pytest
@@ -99,13 +100,18 @@ python -m pytest
 fastapi/
 ├── app/
 │   ├── main.py              # 装配层：建 app、挂路由
-│   └── routers/
-│       ├── health.py        # GET /health, /health/ready
-│       └── playground.py    # 路径参数 / 查询参数练习
+│   ├── routers/
+│   │   ├── health.py        # GET /health, /health/ready
+│   │   ├── playground.py    # 路径参数 / 查询参数练习
+│   │   └── chat.py          # POST /chat + 会话管理（Day 2）
+│   └── schemas/
+│       └── chat.py          # 数据契约：Message / ChatRequest / SessionOut ...
 ├── scripts/
-│   └── check_day01.py       # Day 1 接口验证
+│   ├── check_day01.py       # Day 1 接口验证
+│   └── check_day02.py       # Day 2 请求体 + response_model 裁剪验证
 └── docs/
     ├── learning-plan.md     # 完整 4 周计划
-    └── day01.md             # Day 1 讲解
+    ├── day01.md             # Day 1 讲解
+    └── day02.md             # Day 2 讲解
 ```
 

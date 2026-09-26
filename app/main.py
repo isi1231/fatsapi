@@ -12,7 +12,7 @@
 
 from fastapi import FastAPI
 
-from app.routers import health, playground
+from app.routers import chat, health, playground
 
 app = FastAPI(
     # 这三个参数不是装饰，它们会直接出现在 /docs 的页头和 OpenAPI schema 里。
@@ -29,9 +29,15 @@ app = FastAPI(
 # 所以这里不需要再重复写一遍路径前缀。
 app.include_router(health.router)
 app.include_router(playground.router)
+app.include_router(chat.router)
 
 
 @app.get("/", tags=["meta"], summary="根路径")
 async def root() -> dict[str, str]:
     """给个落地页 —— 服务起来了总得有地方确认一下，顺手把文档地址告诉你。"""
     return {"message": "服务已启动", "docs": "/docs"}
+
+
+#uvicorn app.main:app --reload --port 8000
+# fastapi dev
+
