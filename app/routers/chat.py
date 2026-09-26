@@ -176,7 +176,7 @@ async def list_sessions() -> list[SessionRecord]:
 # ---------------------------------------------------------------------------
 
 
-@router.get("/whoami", summary="读取 Header 与 Cookie")
+@router.get("/whoami1", summary="读取 Header 与 Cookie")
 async def whoami(
     # 参数名写 x_client_id，FastAPI 会自动去找请求头 "x-client-id"
     # （下划线转横线，且不区分大小写）。
@@ -199,3 +199,27 @@ async def whoami(
         "user_agent": user_agent,
         "has_session_token": session_token is not None,
     }
+
+# @router.get("/whoami2", summary="读取 Header 与 Cookie")
+# async def whoami(
+#     # 参数名写 x_client_id，FastAPI 会自动去找请求头 "x-client-id"
+#     # （下划线转横线，且不区分大小写）。
+#     # 想用别的名字就显式写 alias="X-Client-Id"。
+#     x_client_id: str = Header(..., description="客户端标识，请求头 X-Client-Id"),
+#     user_agent: str | None = Header(None, description="浏览器会自动带上"),
+#     # Cookie 的名字不做转换，参数名就是 cookie 名。
+#     session_token: str  = Cookie( description="必填：会话令牌"),
+# ) -> dict:
+#     """这个接口没有请求体、没有路径参数，参数来自请求头和 Cookie。
+
+#     ⚠️ 一个重要区别：**Header/Cookie 里的值全是字符串**。
+#     如果你写 `retry_count: int = Header(0)`，FastAPI 会帮你转成 int，
+#     转不了就 422。所以放心用类型注解，转换和校验一样是自动的。
+
+#     真实场景里，`X-Client-Id` 这种头通常就是 Day 15 要做的 API Key 鉴权的雏形。
+#     """
+#     return {
+#         "client_id": x_client_id,
+#         "user_agent": user_agent,
+#         "has_session_token": session_token is not None,
+#     }
