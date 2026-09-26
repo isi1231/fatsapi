@@ -10,7 +10,14 @@
 它越干净，你定位「路由到底注册在哪」就越快。
 """
 
+import sys
+from pathlib import Path
+
 from fastapi import FastAPI
+import uvicorn
+
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.routers import chat, health, playground
 
@@ -41,3 +48,5 @@ async def root() -> dict[str, str]:
 #uvicorn app.main:app --reload --port 8000
 # fastapi dev
 
+if __name__ == "__main__":
+    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)

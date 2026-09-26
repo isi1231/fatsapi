@@ -3,5 +3,5 @@
 #            python-jose[cryptography] passlib[bcrypt] slowapi
 #            pytest pytest-asyncio sse-starlette
 
-fastapi[standard]
-uvicorn[standard]
+#fastapi[standard]
+#uvicorn[standard]
