@@ -17,8 +17,10 @@ from app.schemas.chat import (
     SessionRecord,
     Usage,
 )
+from app.schemas.common import ApiResponse
 
 __all__ = [
+    "ApiResponse",
     "ChatRequest",
     "ChatResponse",
     "Message",

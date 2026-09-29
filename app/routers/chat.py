@@ -24,6 +24,7 @@ from app.schemas.chat import (
     SessionRecord,
     Usage,
 )
+from app.schemas.common import ApiResponse
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 
@@ -223,3 +224,37 @@ async def whoami(
 #         "user_agent": user_agent,
 #         "has_session_token": session_token is not None,
 #     }
+
+
+# ---------------------------------------------------------------------------
+# Day 3 · 校验器演示
+# ---------------------------------------------------------------------------
+
+
+@router.post(
+    "/validate",
+    response_model=ApiResponse[ChatRequest],
+    summary="校验并回显（演示字段归一化与跨字段校验）",
+)
+async def validate_request(payload: ChatRequest) -> ApiResponse[ChatRequest]:
+    """把请求体回显给你 —— 但回显的是**处理之后**的结果。
+
+    这个接口不干业务，价值全在「它通过了」还是「它报错了」这两件事上。
+    对着 /docs 试下面几组输入，能直观看到四种不同的命运：
+
+    | 你传的 | 结果 | 谁决定的 |
+    | --- | --- | --- |
+    | `"role": "human"` | 变成 `user` | `normalize_role`（before 校验器） |
+    | `"content": "   "` | 422（strip 后为空） | `str_strip_whitespace` + `min_length` |
+    | `"role": "banana"` | 422 | `Literal` 类型 |
+    | `temperature=0, top_p=0.5` | 422 | `check_sampling_consistency`（after 校验器） |
+    | `"temprature": 1`（拼错了） | 422 | `extra="forbid"` |
+
+    注意响应外面套了一层 `ApiResponse` —— 业务数据在 `data` 里。
+    这就是统一外壳的样子，Day 5 之后所有接口都会长成这样。
+
+    还有一点值得留意：`role: "human"` 进来、`"user"` 出去，
+    **同一个字段在入口和出口是两个值**。这就是 `mode="before"` 的实际效果 ——
+    脏数据在进入你的业务逻辑之前就已经被洗干净了。
+    """
+    return ApiResponse.ok(payload, message="校验通过")
